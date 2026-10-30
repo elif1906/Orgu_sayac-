@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Örgü ve tığ işi için basit, telefona kurulabilen sıra ve ilmek sayacı.",
   "scripts": {
-    "sync": "cap sync android",
-    "android": "cap open android"
+    "sync": "cap sync",
+    "android": "cap open android",
+    "ios": "cap open ios"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,8 @@
     "@capacitor-community/keep-awake": "^8.0.1",
     "@capacitor/android": "^8.6.0",
     "@capacitor/core": "^8.6.0",
-    "@capacitor/haptics": "^8.0.2"
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/ios": "^8.6.0"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.6.0"
