@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#b4475f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Örgü Sayacı">
+  <title>Örgü Sayacı</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Proje listesi -->
+  <main id="list-view" class="view">
+    <header class="topbar">
+      <h1>🧶 Örgü Sayacı</h1>
+    </header>
+
+    <ul id="project-list" class="project-list"></ul>
+
+    <div id="empty-state" class="empty" hidden>
+      <p class="empty-emoji">🧶</p>
+      <p><strong>Henüz projen yok.</strong></p>
+      <p class="muted">Yeni bir proje ekleyip sıralarını saymaya başla.</p>
+    </div>
+
+    <button id="new-project" class="fab">+ Yeni proje</button>
+  </main>
+
+  <!-- Sayaç ekranı -->
+  <main id="counter-view" class="view" hidden>
+    <header class="topbar">
+      <a href="#" class="icon-btn" aria-label="Projelere dön">‹</a>
+      <h1 id="project-title"></h1>
+      <button id="edit-project" class="icon-btn" aria-label="Projeyi düzenle">✎</button>
+    </header>
+
+    <section class="row-display">
+      <p class="label">Sıra</p>
+      <p id="row-count" class="count">0</p>
+      <p id="row-info" class="muted"></p>
+      <div id="progress" class="progress" hidden><span id="progress-bar"></span></div>
+    </section>
+
+    <p id="banner" class="banner is-empty" role="status"></p>
+
+    <button id="row-plus" class="big-plus" aria-label="Sıra ekle">+</button>
+
+    <div class="row-actions">
+      <button id="row-minus" class="btn">− Geri al</button>
+      <button id="row-reset" class="btn btn-ghost">Sıfırla</button>
+    </div>
+
+    <section class="card stitch">
+      <div>
+        <p class="label">İlmek</p>
+        <p class="muted small">Her yeni sırada sıfırlanır</p>
+      </div>
+      <div class="stepper">
+        <button id="stitch-minus" class="btn round" aria-label="İlmek azalt">−</button>
+        <span id="stitch-count">0</span>
+        <button id="stitch-plus" class="btn round" aria-label="İlmek ekle">+</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <label for="notes" class="label">Notlar</label>
+      <textarea id="notes" rows="3" placeholder="Model, şiş numarası, ip rengi..."></textarea>
+    </section>
+  </main>
+
+  <!-- Proje ekle / düzenle -->
+  <dialog id="project-dialog">
+    <form id="project-form">
+      <h2 id="dialog-title">Yeni proje</h2>
+      <label>Proje adı
+        <input id="f-name" required maxlength="60" placeholder="Örn. Mavi atkı">
+      </label>
+      <label>Hedef sıra sayısı <span class="muted">(isteğe bağlı)</span>
+        <input id="f-target" type="number" min="1" inputmode="numeric" placeholder="Örn. 120">
+      </label>
+      <fieldset>
+        <legend>Hatırlatma <span class="muted">(isteğe bağlı)</span></legend>
+        <label>Her kaç sırada bir?
+          <input id="f-every" type="number" min="1" inputmode="numeric" placeholder="Örn. 6">
+        </label>
+        <label>Ne hatırlatılsın?
+          <input id="f-text" maxlength="80" placeholder="Örn. Kenarlardan birer ilmek artır">
+        </label>
+      </fieldset>
+      <div class="dialog-actions">
+        <button type="button" id="delete-project" class="btn btn-danger" hidden>Sil</button>
+        <span class="spacer"></span>
+        <button type="button" id="cancel-dialog" class="btn btn-ghost">Vazgeç</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
