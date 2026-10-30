@@ -1,0 +1,31 @@
+{
+  "name": "orgu-sayaci",
+  "version": "1.0.0",
+  "description": "Örgü ve tığ işi için basit, telefona kurulabilen sıra ve ilmek sayacı.",
+  "scripts": {
+    "sync": "cap sync android",
+    "android": "cap open android"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elif1906/Orgu_sayac-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/elif1906/Orgu_sayac-/issues"
+  },
+  "homepage": "https://github.com/elif1906/Orgu_sayac-#readme",
+  "private": true,
+  "dependencies": {
+    "@capacitor-community/keep-awake": "^8.0.1",
+    "@capacitor/android": "^8.6.0",
+    "@capacitor/core": "^8.6.0",
+    "@capacitor/haptics": "^8.0.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.6.0"
+  }
+}

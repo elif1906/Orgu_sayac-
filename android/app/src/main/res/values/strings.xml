@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Örgü Sayacı</string>
+    <string name="title_activity_main">Örgü Sayacı</string>
+    <string name="package_name">com.elif1906.orgusayaci</string>
+    <string name="custom_url_scheme">com.elif1906.orgusayaci</string>
+</resources>

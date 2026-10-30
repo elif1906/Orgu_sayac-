@@ -2,6 +2,10 @@ const STORAGE_KEY = 'orgu-sayaci:v1';
 
 const $ = (sel) => document.querySelector(sel);
 
+// Android uygulaması olarak mı çalışıyoruz? (Capacitor) Öyleyse telefonun kendi özelliklerini kullan
+const isNative = !!window.Capacitor?.isNativePlatform?.();
+const native = window.Capacitor?.Plugins ?? {};
+
 let state = loadState();
 let currentId = null;
 let editingId = null;
@@ -41,8 +45,15 @@ function toPosInt(value) {
   return n > 0 ? n : null;
 }
 
-function vibrate(pattern) {
-  try { navigator.vibrate?.(pattern); } catch {}
+function vibrate(strong) {
+  try {
+    if (isNative) {
+      if (strong) native.Haptics?.vibrate({ duration: 300 });
+      else native.Haptics?.impact({ style: 'LIGHT' });
+    } else {
+      navigator.vibrate?.(strong ? [80, 60, 80] : 15);
+    }
+  } catch {}
 }
 
 function escapeHtml(s) {
@@ -130,7 +141,7 @@ function changeRows(delta) {
   renderCounter();
 
   // Hatırlatma veya hedef anında daha uzun titreşim
-  vibrate(delta > 0 && bannerFor(p) ? [80, 60, 80] : 15);
+  vibrate(delta > 0 && !!bannerFor(p));
   const count = $('#row-count');
   count.classList.remove('pop');
   void count.offsetWidth;
@@ -143,7 +154,7 @@ function changeStitches(delta) {
   p.stitches = Math.max(0, p.stitches + delta);
   touch(p);
   renderCounter();
-  vibrate(10);
+  vibrate(false);
 }
 
 $('#row-plus').addEventListener('click', () => changeRows(1));
@@ -233,7 +244,9 @@ $('#delete-project').addEventListener('click', () => {
 
 async function requestWakeLock() {
   try {
-    if ('wakeLock' in navigator && !wakeLock) {
+    if (isNative) {
+      await native.KeepAwake?.keepAwake();
+    } else if ('wakeLock' in navigator && !wakeLock) {
       wakeLock = await navigator.wakeLock.request('screen');
       wakeLock.addEventListener('release', () => { wakeLock = null; });
     }
@@ -241,6 +254,7 @@ async function requestWakeLock() {
 }
 
 function releaseWakeLock() {
+  if (isNative) native.KeepAwake?.allowSleep()?.catch(() => {});
   wakeLock?.release();
   wakeLock = null;
 }
@@ -251,7 +265,8 @@ document.addEventListener('visibilitychange', () => {
 
 // --- Başlat
 
-if ('serviceWorker' in navigator) {
+// Android uygulamasında dosyalar zaten telefonda, internetsiz çalışma için service worker gerekmez
+if (!isNative && 'serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 
